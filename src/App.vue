@@ -1,10 +1,19 @@
 <script setup lang="ts">
-import HelloWorld from "./components/HelloWorld.vue";
-import TheWelcome from "./components/TheWelcome.vue";
+// import HelloWorld from "./components/HelloWorld.vue";
+// import TheWelcome from "./components/TheWelcome.vue";
+import Job from "./components/JobElement.vue";
+import { jobsStore } from '@/stores/jobs';
+import { useCounterStore } from '@/stores/counter';
+import { storeToRefs } from 'pinia';
+import { computed } from 'vue';
+const { jobs } = storeToRefs(jobsStore())
 </script>
 
 <template>
-  <header>
+  <input type="text">
+  <br>
+  <Job v-for="job in jobs" key="job.id" :job="job"></Job>
+  <!-- <header>
     <img
       alt="Vue logo"
       class="logo"
@@ -20,7 +29,7 @@ import TheWelcome from "./components/TheWelcome.vue";
 
   <main>
     <TheWelcome />
-  </main>
+  </main> -->
 </template>
 
 <style scoped>
