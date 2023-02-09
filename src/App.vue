@@ -6,13 +6,24 @@ import { jobsStore } from '@/stores/jobs';
 import { useCounterStore } from '@/stores/counter';
 import { storeToRefs } from 'pinia';
 import { computed } from 'vue';
+
 const { jobs } = storeToRefs(jobsStore())
+
+// jobs.value = computed()
 </script>
 
 <template>
-  <input type="text">
-  <br>
-  <Job v-for="job in jobs" key="job.id" :job="job"></Job>
+  <!-- <v-input type="text"> -->
+  <!-- </v-input> -->
+  <v-container theme="dark">
+    <v-row dense>
+
+      <v-text-field></v-text-field>
+      <br>
+      <Job v-for="job in jobs" key="job.id" :job="job"></Job>
+      <!-- </v-col> -->
+    </v-row>
+  </v-container>
   <!-- <header>
     <img
       alt="Vue logo"

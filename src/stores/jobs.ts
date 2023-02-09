@@ -153,14 +153,22 @@ export const jobsStore = defineStore("jobs", () => {
             "languages": ["JavaScript"],
             "tools": ["React", "Sass"]
         }
-    
-    ]);   
-    return { jobs } });
+
+    ]);
+    return { jobs }
+});
 
 
 export interface JobModel {
     company: string;
-    position: boolean; 
-    new: boolean; 
-    featured: boolean; 
+    position: boolean;
+    new: boolean;
+    featured: boolean;
+    postedAt: string;
+    contract: string;
+    location: string;
+    tools: string[];
+    languages: string[];
+    level: string;
+    logo: string;
 }
