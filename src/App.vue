@@ -5,23 +5,38 @@ import Job from "./components/JobElement.vue";
 import { jobsStore } from '@/stores/jobs';
 import { useCounterStore } from '@/stores/counter';
 import { storeToRefs } from 'pinia';
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 
 const { jobs } = storeToRefs(jobsStore())
+const searchText = ref("")
+const filters = computed(() => {
+  let a = new Set<string>([]);
+  jobs.value.map(job => {
+    a.add(job.level)
+    job.tools.forEach(item => a.add(item))
+    job.languages.forEach(item => a.add(item))
+  })
+  return Array.from(a)
+})
+const filterData = computed(() => {
+  // filters
+  return jobs.value
+    ? jobs.value.filter(job => job.searchText.includes(searchText.value.toLowerCase()))
+    : jobs.value
+})
 
-// jobs.value = computed()
+const value = ref([])
 </script>
 
 <template>
-  <!-- <v-input type="text"> -->
-  <!-- </v-input> -->
-  <v-container theme="dark">
+  <v-container>
     <v-row dense>
 
-      <v-text-field></v-text-field>
+      <v-text-field clearable v-model="searchText"></v-text-field>
+      <v-select clearable v-model="value" :items="filters" label="filters" chips multiple></v-select>
       <br>
-      <Job v-for="job in jobs" key="job.id" :job="job"></Job>
-      <!-- </v-col> -->
+      <br>
+      <Job v-for="job in filterData" key="job.id" :job="job"></Job>
     </v-row>
   </v-container>
   <!-- <header>

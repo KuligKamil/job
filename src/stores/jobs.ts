@@ -2,7 +2,7 @@ import { ref, computed } from "vue";
 import { defineStore } from "pinia";
 
 export const jobsStore = defineStore("jobs", () => {
-    const jobs2 = [
+    let jobs2 = [
         {
             "id": 1,
             "company": "Photosnap",
@@ -155,8 +155,11 @@ export const jobsStore = defineStore("jobs", () => {
         }
 
     ];
-    jobs2.map(job => prepareJob(job))
+    jobs2 = jobs2.map(job => prepareJob(job))
+    console.log(jobs2)
     const jobs = ref(jobs2)
+    // let a = jobs.value.filter(job => job.searchText.includes('photo'))
+    // console.log(a)
     return { jobs }
 });
 
@@ -174,6 +177,7 @@ export interface JobSearchString {
 export interface JobModel extends JobSearchString {
     postedAt: string;
     logo: string;
+    searchText: string
 }
 // .replace(" ", "")
 function prepareJob(job) {
@@ -189,10 +193,10 @@ function prepareJob(job) {
                 value = job[key].toString()
             }
             value = value.replaceAll(" ", "").replaceAll("-", "").replaceAll(".", "").replaceAll(",", "")
-            console.log(key, job[key], typeof job[key])
+            // console.log(key, job[key], typeof job[key])
 
             job.searchText += value.toLowerCase()
-            console.log(job.searchText)
+            // console.log(job.searchText)
         }
         // console.log("AAAAAA")
     })
