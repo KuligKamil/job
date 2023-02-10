@@ -1,10 +1,8 @@
 <script setup lang="ts">
-// import JobModel from 
 import { jobsStore, type JobModel } from '@/stores/jobs';
 const props = defineProps<{
   job: JobModel
 }>()
-props.job.logo = props.job.logo.replace('./', './src/')
 </script>
 
 <template>
@@ -13,10 +11,10 @@ props.job.logo = props.job.logo.replace('./', './src/')
     <v-card elevation="24" outlined>
       <v-img width="50" class="image ma-4" :src="job.logo">
       </v-img>
+      {{ job.searchText }}
       <v-card-title>{{ job.company }}
-        <v-chip color=" text-uppercase" v-if="job.new"> new! </v-chip>
-        <v-chip color=" text-uppercase" v-if="job.featured"> featured </v-chip>
-
+        <v-chip class="ma-2" color=" text-uppercase" v-if="job.new"> new! </v-chip>
+        <v-chip class="ma-2" color=" text-uppercase" v-if="job.featured"> featured </v-chip>
       </v-card-title>
       <v-card-subtitle>
         {{ job.position }}
@@ -24,7 +22,9 @@ props.job.logo = props.job.logo.replace('./', './src/')
 
       <v-card-text>
         {{ job.postedAt }}
+        <p class="dot"></p>
         {{ job.contract }}
+        <p class="dot"></p>
         {{ job.location }}
 
         <v-divider class="mt-3 mb-3" insert></v-divider>
@@ -51,5 +51,14 @@ props.job.logo = props.job.logo.replace('./', './src/')
 <style>
 .image {
   border-radius: 50%;
+}
+
+.dot {
+  height: 5px;
+  width: 5px;
+  margin: 2px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
 }
 </style>

@@ -2,7 +2,7 @@ import { ref, computed } from "vue";
 import { defineStore } from "pinia";
 
 export const jobsStore = defineStore("jobs", () => {
-    const jobs = ref([
+    const jobs2 = [
         {
             "id": 1,
             "company": "Photosnap",
@@ -154,21 +154,48 @@ export const jobsStore = defineStore("jobs", () => {
             "tools": ["React", "Sass"]
         }
 
-    ]);
+    ];
+    jobs2.map(job => prepareJob(job))
+    const jobs = ref(jobs2)
     return { jobs }
 });
 
-
-export interface JobModel {
+export interface JobSearchString {
     company: string;
     position: boolean;
     new: boolean;
     featured: boolean;
-    postedAt: string;
     contract: string;
     location: string;
     tools: string[];
     languages: string[];
     level: string;
+}
+export interface JobModel extends JobSearchString {
+    postedAt: string;
     logo: string;
+}
+// .replace(" ", "")
+function prepareJob(job) {
+    job.searchText = ""
+    job.logo = job.logo.replace('./', './src/')
+    job.searchText = "";
+    Object.keys(job).forEach(function (key) {
+        if (['company', 'position', 'location', 'tools', 'languages', 'level'].includes(key)) {
+            let value: string = ""
+            if (typeof job[key] === "object") {
+                value = job[key].toString().replaceAll(",", "").replaceAll(" ", "");
+            } else {
+                value = job[key].toString()
+            }
+            value = value.replaceAll(" ", "").replaceAll("-", "").replaceAll(".", "").replaceAll(",", "")
+            console.log(key, job[key], typeof job[key])
+
+            job.searchText += value.toLowerCase()
+            console.log(job.searchText)
+        }
+        // console.log("AAAAAA")
+    })
+    job.searchText = job.searchText.trim()
+    return job
 }
