@@ -201,5 +201,8 @@ function prepareJob(job) {
         // console.log("AAAAAA")
     })
     job.searchText = job.searchText.trim()
+    job.informations = [job.level]
+    job.tools.forEach(item => job.informations.push(item))
+    job.languages.forEach(item => job.informations.push(item))
     return job
 }

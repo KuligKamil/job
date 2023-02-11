@@ -1,9 +1,6 @@
 <script setup lang="ts">
-// import HelloWorld from "./components/HelloWorld.vue";
-// import TheWelcome from "./components/TheWelcome.vue";
 import Job from "./components/JobElement.vue";
 import { jobsStore } from '@/stores/jobs';
-import { useCounterStore } from '@/stores/counter';
 import { storeToRefs } from 'pinia';
 import { computed, ref } from 'vue';
 
@@ -18,44 +15,27 @@ const filters = computed(() => {
   })
   return Array.from(a)
 })
+const selectedFilters = ref([])
 const filterData = computed(() => {
-  // filters
   return jobs.value
-    ? jobs.value.filter(job => job.searchText.includes(searchText.value.toLowerCase()))
+    ? jobs.value.filter(job => job.searchText.includes(searchText.value.toLowerCase())
+      && selectedFilters.value.every(info => job.informations.includes(info)))
     : jobs.value
 })
 
-const value = ref([])
+
 </script>
 
 <template>
   <v-container>
     <v-row dense>
-
-      <v-text-field clearable v-model="searchText"></v-text-field>
-      <v-select clearable v-model="value" :items="filters" label="filters" chips multiple></v-select>
+      <v-text-field clearable v-model="searchText" label="search"></v-text-field>
+      <v-select clearable v-model="selectedFilters" :items="filters" label="filters" chips closable multiple></v-select>
       <br>
       <br>
-      <Job v-for="job in filterData" key="job.id" :job="job"></Job>
+      <Job v-for="job in filterData" key="job.id" v-model:filters="selectedFilters" :job="job"></Job>
     </v-row>
   </v-container>
-  <!-- <header>
-    <img
-      alt="Vue logo"
-      class="logo"
-      src="./assets/logo.svg"
-      width="125"
-      height="125"
-    />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main> -->
 </template>
 
 <style scoped>
