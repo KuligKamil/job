@@ -13,9 +13,10 @@ import App from "./App.vue";
 const myCustomLightTheme: ThemeDefinition = {
     dark: false,
     colors: {
-        background: '#F0FAFB',
+        // background: '#F0FAFB',
+        background: '#effafa',
         // surface: '#FFFFFF',
-        // primary: '#6200EE',
+        // primary: '#64B9BC',
         // 'primary-darken-1': '#3700B3',
         // secondary: '#03DAC6',
         // 'secondary-darken-1': '#018786',
