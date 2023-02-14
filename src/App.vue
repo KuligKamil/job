@@ -7,13 +7,13 @@ import { computed, ref } from 'vue';
 const { jobs } = storeToRefs(jobsStore())
 const searchText = ref("")
 const filters = computed(() => {
-  let a = new Set<string>([]);
+  let filtersSet = new Set<string>([]);
   jobs.value.map(job => {
-    a.add(job.level)
-    job.tools.forEach(item => a.add(item))
-    job.languages.forEach(item => a.add(item))
+    filtersSet.add(job.level)
+    job.tools.forEach(item => filtersSet.add(item))
+    job.languages.forEach(item => filtersSet.add(item))
   })
-  return Array.from(a)
+  return Array.from(filtersSet)
 })
 const selectedFilters = ref([])
 const filterData = computed(() => {
@@ -37,9 +37,11 @@ const filterData = computed(() => {
             multiple></v-select>
         </v-col>
       </v-row>
-      <v-row dense>
+      <!-- <v-row dense> -->
+      <div>
         <Job v-for="job in filterData" key="job.id" v-model:filters="selectedFilters" :job="job"></Job>
-      </v-row>
+      </div>
+      <!-- </v-row> -->
     </v-container>
   </v-app>
 </template>

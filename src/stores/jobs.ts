@@ -1,4 +1,4 @@
-import { ref, computed } from "vue";
+import { ref } from "vue";
 import { defineStore } from "pinia";
 
 export const jobsStore = defineStore("jobs", () => {
@@ -155,15 +155,12 @@ export const jobsStore = defineStore("jobs", () => {
         }
 
     ];
-    jobs2 = jobs2.map(job => prepareJob(job))
-    console.log(jobs2)
-    const jobs = ref(jobs2)
-    // let a = jobs.value.filter(job => job.searchText.includes('photo'))
-    // console.log(a)
+    const jobs = ref(jobs2.map(job => prepareJob(job)))
     return { jobs }
 });
 
 export interface JobSearchString {
+    id: number;
     company: string;
     position: boolean;
     new: boolean;
@@ -173,17 +170,18 @@ export interface JobSearchString {
     tools: string[];
     languages: string[];
     level: string;
-}
-export interface JobModel extends JobSearchString {
-    postedAt: string;
+    postedAt?: string;
     logo: string;
-    searchText: string
+    role: string;
+    searchText?: string
+    informations?: string[]
 }
-// .replace(" ", "")
-function prepareJob(job) {
+
+function prepareJob(job: JobSearchString) {
     job.searchText = ""
     job.logo = job.logo.replace('./', './src/')
     job.searchText = "";
+    job.informations = []
     Object.keys(job).forEach(function (key) {
         if (['company', 'position', 'location', 'tools', 'languages', 'level'].includes(key)) {
             let value: string = ""
@@ -193,12 +191,8 @@ function prepareJob(job) {
                 value = job[key].toString()
             }
             value = value.replaceAll(" ", "").replaceAll("-", "").replaceAll(".", "").replaceAll(",", "")
-            // console.log(key, job[key], typeof job[key])
-
             job.searchText += value.toLowerCase()
-            // console.log(job.searchText)
         }
-        // console.log("AAAAAA")
     })
     job.searchText = job.searchText.trim()
     job.informations = [job.role, job.level]
