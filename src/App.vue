@@ -37,11 +37,9 @@ const filterData = computed(() => {
             multiple></v-select>
         </v-col>
       </v-row>
-      <!-- <v-row dense> -->
       <div>
         <Job v-for="job in filterData" key="job.id" v-model:filters="selectedFilters" :job="job"></Job>
       </div>
-      <!-- </v-row> -->
     </v-container>
   </v-app>
 </template>
