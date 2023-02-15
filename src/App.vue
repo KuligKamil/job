@@ -4,24 +4,23 @@ import { jobsStore } from '@/stores/jobs';
 import { storeToRefs } from 'pinia';
 import { computed, ref } from 'vue';
 
-const { jobs } = storeToRefs(jobsStore())
+const { fetchData } = jobsStore()
+const { jobs, isLoading } = storeToRefs(jobsStore())
+
+fetchData()
 const searchText = ref("")
 const filters = computed(() => {
-  let filtersSet = new Set<string>([]);
-  jobs.value.map(job => {
-    filtersSet.add(job.level)
-    job.tools.forEach(item => filtersSet.add(item))
-    job.languages.forEach(item => filtersSet.add(item))
-  })
-  return Array.from(filtersSet)
+  return Array.from(new Set(jobs.value.map(job => [job.level, ...job.tools, ...job.languages])
+    .reduce((accum, el) => accum.concat(el), [])))
 })
 const selectedFilters = ref([])
 const filterData = computed(() => {
-  return jobs.value
+  return jobs.value && searchText.value !== null
     ? jobs.value.filter(job => job.searchText.includes(searchText.value.toLowerCase())
       && selectedFilters.value.every(info => job.informations.includes(info)))
     : jobs.value
 })
+
 </script>
 
 <template>
@@ -38,7 +37,14 @@ const filterData = computed(() => {
         </v-col>
       </v-row>
       <div>
-        <Job v-for="job in filterData" key="job.id" v-model:filters="selectedFilters" :job="job"></Job>
+        <div class="d-flex justify-center">
+          <v-progress-circular v-if="isLoading" indeterminate :size="56"></v-progress-circular>
+        </div>
+        {{ isLoading }}
+        <Job v-if="!isLoading" v-for="job in filterData" :key="job.id" v-model:filters="selectedFilters" :job="job">
+        </Job>
+        <!-- <Job v-for="job in filterData" key="job.id" :filters="selectedFilters" @update:filters="selectedFilters = $event" :job="job"></Job> -->
+        <!-- <Job v-for="job in filterData" key="job.id" :filters="selectedFilters" @update:filters="selectedFilters = $event" :job="job"></Job> -->
       </div>
     </v-container>
   </v-app>

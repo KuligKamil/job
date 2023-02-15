@@ -5,17 +5,22 @@ const props = defineProps<{
   job: JobSearchString
   filters: string[]
 }>()
+const emit = defineEmits<{
+  (event: "update:filters", filters: string[]): void
+}>();
+
 const isSelected = (info: string) => {
-  return props.filters.find(filter => filter === info) ? 'black' : '#64B9BC';
+  return props.filters.find(filter => filter === info) ? 'black' : '#64B9BC'
 }
 const chooseInfo = (info: string) => {
-  if (props.filters.find(filter => filter === info)) {
-    const index = props.filters.indexOf(info);
-    props.filters.splice(index, 1);
+  const index = props.filters.indexOf(info);
+  if (index === -1) {
+    emit('update:filters', [...props.filters, info])
   } else {
-    props.filters.push(info)
+    emit('update:filters', props.filters.filter(filter => filter !== info))
   }
 }
+
 </script>
 
 <template>
