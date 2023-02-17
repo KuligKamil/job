@@ -1,6 +1,6 @@
 import { ref } from "vue";
 import { defineStore } from "pinia";
-import jobsResponse from "@//data.json"
+import jobsResponse from "@/stores/data.json";
 // interface RequestState {
 //     isLoading: boolean;
 //     error: Error | null;
@@ -41,7 +41,7 @@ export const jobsStore = defineStore("jobs", () => {
         // console.log(data[0].text);
     }
     return { jobs, fetchData, isLoading }
-})
+});
 
 export interface JobSearchString {
     id: number;
