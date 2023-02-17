@@ -1,57 +1,64 @@
 <script setup lang="ts">
-import type { JobSearchString } from '@/stores/jobs';
+import type { JobSearchString } from '@/stores/jobs'
 
 const props = defineProps<{
   job: JobSearchString
   filters: string[]
 }>()
 const emit = defineEmits<{
-  (event: "update:filters", filters: string[]): void
-}>();
+  (event: 'update:filters', filters: string[]): void
+}>()
 
 const isSelected = (info: string) => {
   return props.filters.find(filter => filter === info) ? 'black' : '#64B9BC'
 }
 const chooseInfo = (info: string) => {
-  const index = props.filters.indexOf(info);
-  if (index === -1) {
+  const index = props.filters.indexOf(info)
+  if (index === -1)
     emit('update:filters', [...props.filters, info])
-  } else {
-    emit('update:filters', props.filters.filter(filter => filter !== info))
-  }
-}
 
+  else
+    emit('update:filters', props.filters.filter(filter => filter !== info))
+}
 </script>
 
 <template>
   <div class="job d-flex elevation-6 mb-10" :class="{ featured: job.featured }">
     <header class="d-flex align-center ml-4 mt-8">
       <div class="img ma-sm-2">
-        <v-img class="image" :src="job.logo"></v-img>
+        <v-img class="image" :src="job.logo" />
       </div>
       <div>
         <div class="title">
           <div>
             <span class="font-weight-black">{{ job.company }}</span>
-            <v-chip class="ma-2 new font-weight-bold" v-if="job.new"> NEW! </v-chip>
-            <v-chip class="ma-2 tag-featured font-weight-bold" v-if="job.featured"> FEATURED </v-chip>
+            <v-chip v-if="job.new" class="ma-2 new font-weight-bold">
+              NEW!
+            </v-chip>
+            <v-chip v-if="job.featured" class="ma-2 tag-featured font-weight-bold">
+              FEATURED
+            </v-chip>
           </div>
         </div>
-        <div class="sub-title font-weight-black"> {{ job.position }}</div>
+        <div class="sub-title font-weight-black">
+          {{ job.position }}
+        </div>
 
         <div class="informations font-weight-regular mb-lg-4">
           {{ job.postedAt }}
-          <p class="dot"></p>
+          <p class="dot" />
           {{ job.contract }}
-          <p class="dot"></p>
+          <p class="dot" />
           {{ job.location }}
         </div>
       </div>
     </header>
-    <v-divider class="mt-3 mb-3 d-sm-none divider"></v-divider>
+    <v-divider class="mt-3 mb-3 d-sm-none divider" />
     <div class="tags ml-4">
-      <v-chip class="font-weight-bold mr-2 mt-2 mb-2" :color="isSelected(info)" v-for="info in job.informations"
-        @click="chooseInfo(info)" label>
+      <v-chip
+        v-for="info in job.informations" class="font-weight-bold mr-2 mt-2 mb-2" :color="isSelected(info)"
+        label @click="chooseInfo(info)"
+      >
         {{ info }}
       </v-chip>
     </div>
@@ -83,7 +90,6 @@ const chooseInfo = (info: string) => {
   background: white;
   margin: 16px 16px;
 }
-
 
 .title {
   /* padding: 30px 16px 10px; */
