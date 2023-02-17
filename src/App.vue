@@ -7,7 +7,6 @@ import { jobsStore } from '@/stores/jobs'
 const { fetchData } = jobsStore()
 const { jobs, isLoading } = storeToRefs(jobsStore())
 
-fetchData()
 const searchText = ref('')
 const filters = computed(() => {
   return Array.from(new Set(jobs.value.map(job => [job.level, ...job.tools, ...job.languages])
@@ -15,11 +14,12 @@ const filters = computed(() => {
 })
 const selectedFilters = ref([])
 const filterData = computed(() => {
-  return jobs.value && searchText.value !== null
+  return (jobs.value && searchText.value !== null)
     ? jobs.value.filter(job => job.searchText.includes(searchText.value.toLowerCase())
       && selectedFilters.value.every(info => job.informations.includes(info)))
     : jobs.value
 })
+fetchData()
 </script>
 
 <template>
@@ -36,14 +36,11 @@ const filterData = computed(() => {
           />
         </v-col>
       </v-row>
-      <div>
-        <div class="d-flex justify-center">
-          <v-progress-circular v-if="isLoading" indeterminate :size="56" />
-        </div>
-        {{ isLoading }}
-        <Job v-for="job in filterData" v-if="!isLoading" :key="job.id" v-model:filters="selectedFilters" :job="job" />
-        <!-- <Job v-for="job in filterData" key="job.id" :filters="selectedFilters" @update:filters="selectedFilters = $event" :job="job"></Job> -->
-        <!-- <Job v-for="job in filterData" key="job.id" :filters="selectedFilters" @update:filters="selectedFilters = $event" :job="job"></Job> -->
+      <div v-if="isLoading" class="d-flex justify-center">
+        <v-progress-circular indeterminate :size="56" />
+      </div>
+      <div v-if="!isLoading">
+        <Job v-for="job in filterData" :key="job.id" v-model:filters="selectedFilters" :job="job" />
       </div>
     </v-container>
   </v-app>

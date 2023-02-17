@@ -56,7 +56,7 @@ const chooseInfo = (info: string) => {
     <v-divider class="mt-3 mb-3 d-sm-none divider" />
     <div class="tags ml-4">
       <v-chip
-        v-for="info in job.informations" class="font-weight-bold mr-2 mt-2 mb-2" :color="isSelected(info)"
+        v-for="info in job.informations" :key="info" class="font-weight-bold mr-2 mt-2 mb-2" :color="isSelected(info)"
         label @click="chooseInfo(info)"
       >
         {{ info }}

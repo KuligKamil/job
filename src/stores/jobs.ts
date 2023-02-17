@@ -46,7 +46,7 @@ export const jobsStore = defineStore('jobs', () => {
 export interface JobSearchString {
   id: number
   company: string
-  position: boolean
+  position: string
   new: boolean
   featured: boolean
   contract: string
