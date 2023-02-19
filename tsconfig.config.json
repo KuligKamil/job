@@ -10,9 +10,6 @@
     "composite": true,
     "types": [
       "node"
-    ],
-    "lib": [
-      "ES2021"
     ]
   }
 }

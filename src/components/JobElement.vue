@@ -16,7 +16,6 @@ const chooseInfo = (info: string) => {
   const index = props.filters.indexOf(info)
   if (index === -1)
     emit('update:filters', [...props.filters, info])
-
   else
     emit('update:filters', props.filters.filter(filter => filter !== info))
 }

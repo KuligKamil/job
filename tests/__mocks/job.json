@@ -1,0 +1,17 @@
+{
+    "id": 1,
+    "company": "Photosnap",
+    "logo": "./images/photosnap.svg",
+    "new": true,
+    "featured": true,
+    "position": "Senior Frontend Developer",
+    "details": ["1d ago", "Full Time", "USA Only"],
+    "postedAt": "aa",
+    "contract": "aaa",
+    "location": "aaa",
+    "tags": ["Frontend", "Senior", "HTML", "CSS", "JavaScript"],
+    "tools": [],
+    "languages": [],
+    "level": "string",
+    "role": "aa"
+}

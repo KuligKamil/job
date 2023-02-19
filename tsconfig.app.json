@@ -4,12 +4,15 @@
     "env.d.ts",
     "src/**/*",
     "src/**/*.vue",
-    "src/**/*.json"
+    "src/**/*.json",
+    "tests/**/*", 
+    "tests/**/*.json"
   ],
   "exclude": [
     "src/**/__tests__/*"
   ],
   "compilerOptions": {
+    "lib": ["dom", "dom.iterable", "ESNext"],
     "composite": true,
     "baseUrl": ".",
     "paths": {
