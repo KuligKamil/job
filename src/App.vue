@@ -16,7 +16,7 @@ const selectedFilters = ref([])
 const filterData = computed(() => {
   return (jobs.value && searchText.value !== null)
     ? jobs.value.filter(job => job.searchText.includes(searchText.value.toLowerCase())
-      && selectedFilters.value.every(info => job.informations.includes(info)))
+      && selectedFilters.value.every(tag => job.tags.includes(tag)))
     : jobs.value
 })
 fetchData()

@@ -12,7 +12,7 @@ export const jobsStore = defineStore('jobs', () => {
     logo: job.logo.replace('./', './src/'),
     searchText: [job.company, job.position, job.location, ...job.tools, ...job.languages, job.level]
       .join('').replaceAll(' ', '').replaceAll('-', '').replaceAll('.', '').replaceAll(',', '').toLowerCase(),
-    informations: [job.role, job.level, ...job.tools, ...job.languages],
+    tags: [job.role, job.level, ...job.tools, ...job.languages],
   })))
   // const requestState: RequestState = {
   //     isLoading: true,
@@ -58,5 +58,5 @@ export interface JobSearchString {
   logo: string
   role: string
   searchText?: string
-  informations?: string[]
+  tags?: string[]
 }

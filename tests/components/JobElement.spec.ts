@@ -19,13 +19,12 @@ describe('@/components/JobElement.vue', () => {
   it('renders nothing if no tags are passed as prop', () => {
     createComponent(job, [])
     expect(findElement(job.company)).toBeVisible()
-    expect(findElement(job.informations[0])).toBeVisible()
+    expect(findElement(job.tags[0])).toBeVisible()
   })
-  it('click tag, emit filter list', () => {
+  it('emit event click tag from tags list', () => {
     createComponent(job, [])
-    // expect(findElement(job.company)).toBeVisible()
-    expect(findElement(job.informations[0]))
-    fireEvent.click(findElement(job.informations[0]))
+    expect(findElement(job.tags[0]))
+    fireEvent.click(findElement(job.tags[0]))
     expect(wrapper).toHaveEmitted('update:filters', ['Frontend'])
   })
 })

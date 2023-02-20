@@ -9,15 +9,15 @@ const emit = defineEmits<{
   (event: 'update:filters', filters: string[]): void
 }>()
 
-const isSelected = (info: string) => {
-  return props.filters.find(filter => filter === info) ? 'black' : '#64B9BC'
+const isSelected = (tag: string) => {
+  return props.filters.find(filter => filter === tag) ? 'black' : '#64B9BC'
 }
-const chooseInfo = (info: string) => {
-  const index = props.filters.indexOf(info)
+const chooseInfo = (tag: string) => {
+  const index = props.filters.indexOf(tag)
   if (index === -1)
-    emit('update:filters', [...props.filters, info])
+    emit('update:filters', [...props.filters, tag])
   else
-    emit('update:filters', props.filters.filter(filter => filter !== info))
+    emit('update:filters', props.filters.filter(filter => filter !== tag))
 }
 </script>
 
@@ -55,10 +55,10 @@ const chooseInfo = (info: string) => {
     <v-divider class="mt-3 mb-3 d-sm-none divider" />
     <div class="tags ml-4">
       <v-chip
-        v-for="info in job.informations" :key="info" class="font-weight-bold mr-2 mt-2 mb-2" :color="isSelected(info)"
-        label @click="chooseInfo(info)"
+        v-for="tag in job.tags" :key="tag" class="font-weight-bold mr-2 mt-2 mb-2" :color="isSelected(tag)"
+        label @click="chooseInfo(tag)"
       >
-        {{ info }}
+        {{ tag }}
       </v-chip>
     </div>
   </div>
