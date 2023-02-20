@@ -14,8 +14,6 @@ describe('@/components/JobElement.vue', () => {
   }
 
   const findElement = (name: string) => wrapper.getByText(name)
-  // const findCloseButton = (tag: string) => within(findTag(tag)).getByLabelText('Close');
-  // const findChipButton = () => wrapper.findAllByText()
   it('renders nothing if no tags are passed as prop', () => {
     createComponent(job, [])
     expect(findElement(job.company)).toBeVisible()
@@ -25,6 +23,12 @@ describe('@/components/JobElement.vue', () => {
     createComponent(job, [])
     expect(findElement(job.tags[0]))
     fireEvent.click(findElement(job.tags[0]))
-    expect(wrapper).toHaveEmitted('update:filters', ['Frontend'])
+    expect(wrapper).toHaveEmitted('update:filters', [job.tags[0]])
+  })
+  it('emit event click back tag from tags list', () => {
+    createComponent(job, [job.tags[0]])
+    expect(findElement(job.tags[0]))
+    fireEvent.click(findElement(job.tags[0]))
+    expect(wrapper).toHaveEmitted('update:filters', [])
   })
 })
