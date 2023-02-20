@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-// import { within, fireEvent } from '@testing-library/dom';
+import { fireEvent } from '@testing-library/dom'
 import { type RenderResult, render } from '@/../tests/utils'
 import JobElement from '@/components/JobElement.vue'
 import job from '@/../tests/__mocks/job.json'
@@ -12,10 +12,20 @@ describe('@/components/JobElement.vue', () => {
       props: { job, filters },
     })
   }
+
   const findElement = (name: string) => wrapper.getByText(name)
+  // const findCloseButton = (tag: string) => within(findTag(tag)).getByLabelText('Close');
+  // const findChipButton = () => wrapper.findAllByText()
   it('renders nothing if no tags are passed as prop', () => {
     createComponent(job, [])
     expect(findElement(job.company)).toBeVisible()
-    // expect(wrapper.container).toBeEmptyDOMElement()
+    expect(findElement(job.informations[0])).toBeVisible()
+  })
+  it('click tag, emit filter list', () => {
+    createComponent(job, [])
+    // expect(findElement(job.company)).toBeVisible()
+    expect(findElement(job.informations[0]))
+    fireEvent.click(findElement(job.informations[0]))
+    expect(wrapper).toHaveEmitted('update:filters', ['Frontend'])
   })
 })

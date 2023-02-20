@@ -9,7 +9,7 @@
     "postedAt": "aa",
     "contract": "aaa",
     "location": "aaa",
-    "tags": ["Frontend", "Senior", "HTML", "CSS", "JavaScript"],
+    "informations": ["Frontend", "Senior", "HTML", "CSS", "JavaScript"],
     "tools": [],
     "languages": [],
     "level": "string",
