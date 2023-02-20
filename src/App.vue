@@ -5,13 +5,10 @@ import Job from './components/JobElement.vue'
 import { jobsStore } from '@/stores/jobs'
 
 const { fetchData } = jobsStore()
-const { jobs, isLoading } = storeToRefs(jobsStore())
+const { jobs, isLoading, filters } = storeToRefs(jobsStore())
 
 const searchText = ref('')
-const filters = computed(() => {
-  return Array.from(new Set(jobs.value.map(job => [job.level, ...job.tools, ...job.languages])
-    .reduce((accum, el) => accum.concat(el), [])))
-})
+
 const selectedFilters = ref([])
 const filterData = computed(() => {
   return (jobs.value && searchText.value !== null)

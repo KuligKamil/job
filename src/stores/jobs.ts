@@ -1,4 +1,4 @@
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { defineStore } from 'pinia'
 import jobsResponse from '@/stores/data.json'
 // interface RequestState {
@@ -14,6 +14,10 @@ export const jobsStore = defineStore('jobs', () => {
       .join('').replaceAll(' ', '').replaceAll('-', '').replaceAll('.', '').replaceAll(',', '').toLowerCase(),
     tags: [job.role, job.level, ...job.tools, ...job.languages],
   })))
+  const filters = computed(() => {
+    return Array.from(new Set(jobs.value.map(job => [job.level, ...job.tools, ...job.languages])
+      .reduce((accum, el) => accum.concat(el), [])))
+  })
   // const requestState: RequestState = {
   //     isLoading: true,
   //     error: null,
@@ -40,7 +44,7 @@ export const jobsStore = defineStore('jobs', () => {
     // const data = await response.json();
     // console.log(data[0].text);
   }
-  return { jobs, fetchData, isLoading }
+  return { jobs, fetchData, filters, isLoading }
 })
 
 export interface JobSearchString {
