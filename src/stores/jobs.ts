@@ -1,11 +1,12 @@
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { defineStore } from 'pinia'
 import { useFetch } from '@/composables/fetch'
 
 export const jobsStore = defineStore('jobs', () => {
-  const { execute: fetchData, data: jobs, loading } = useFetch({
+  // add destructurization
+  const { execute: fetchData, data: allJobs, loading } = useFetch({
     url: 'jobs',
-    mapResponse: (jobs: JobSearchString[]) => jobs.map(job => ({
+    mapResponse: (jobs: JobListingsResponse[]) => jobs.map(job => ({
       ...job,
       logo: job.logo.replace('./', './src/'),
       searchText: [job.company, job.position, job.location, ...job.tools, ...job.languages, job.level]
@@ -14,18 +15,18 @@ export const jobsStore = defineStore('jobs', () => {
     })),
   })
 
-  // const jobs = ref(jobsResponse.map(job => ({
-  //   ...job,
-  //   logo: job.logo.replace('./', './src/'),
-  //   searchText: [job.company, job.position, job.location, ...job.tools, ...job.languages, job.level]
-  //     .join('').replaceAll(' ', '').replaceAll('-', '').replaceAll('.', '').replaceAll(',', '').toLowerCase(),
-  //   tags: [job.role, job.level, ...job.tools, ...job.languages],
-  // })))
-  // const filters = ref<string[]>([])
-  const filters: any = computed(() => {
-    return Array.from(new Set(jobs.value?.map(job => [job.level, ...job.tools, ...job.languages])
-      .reduce((accum: any, el: any) => accum.concat(el), [])))
+  const searchText = ref('')
+  const selectedFilters = ref<string[]>([])
+  const filterData = computed(() => {
+    // console.log(allJobs.value)
+    return (allJobs.value && searchText.value !== null)
+      ? allJobs.value?.filter(job => job.searchText.includes(searchText.value.toLowerCase())
+        && selectedFilters.value.every(tag => job.tags.includes(tag)))
+      : allJobs.value
   })
+  const filters = ref(Array.from(new Set(allJobs.value?.map(job => [job.level, ...job.tools, ...job.languages])
+    .reduce((accum: any, el: any) => accum.concat(el), []))))
+  // })
   // // const requestState: RequestState = {
   // //     isLoading: true,
   // //     error: null,
@@ -52,7 +53,7 @@ export const jobsStore = defineStore('jobs', () => {
   //   // const data = await response.json();
   //   // console.log(data[0].text);
   // }
-  return { jobs, fetchData, filters, loading }
+  return { allJobs, filterData, fetchData, filters, searchText, selectedFilters, loading }
 })
 
 export interface JobSearchString {
@@ -71,4 +72,20 @@ export interface JobSearchString {
   role: string
   searchText?: string
   tags?: string[]
+}
+
+export interface JobListingsResponse {
+  id: number
+  company: string
+  logo: string
+  new: boolean
+  featured: boolean
+  position: string
+  role: string
+  level: string
+  postedAt: string
+  contract: string
+  location: string
+  languages: string[]
+  tools: string[]
 }

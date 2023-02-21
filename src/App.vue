@@ -1,21 +1,11 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
-import { computed, ref } from 'vue'
 import Job from './components/JobElement.vue'
 import { jobsStore } from '@/stores/jobs'
 
 const { fetchData } = jobsStore()
-const { jobs, loading, filters } = storeToRefs(jobsStore())
+const { selectedFilters, searchText, filterData, loading, filters } = storeToRefs(jobsStore())
 
-const searchText = ref('')
-
-const selectedFilters = ref([])
-const filterData = computed(() => {
-  return (jobs.value && searchText.value !== null)
-    ? jobs.value.filter(job => job.searchText.includes(searchText.value.toLowerCase())
-      && selectedFilters.value.every(tag => job.tags.includes(tag)))
-    : jobs.value
-})
 fetchData()
 </script>
 

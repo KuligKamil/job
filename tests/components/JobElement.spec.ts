@@ -12,6 +12,7 @@ describe('@/components/JobElement.vue', () => {
       props: { job, filters },
     })
   }
+  
 
   const findElement = (name: string) => wrapper.getByText(name)
   it('renders nothing if no tags are passed as prop', () => {

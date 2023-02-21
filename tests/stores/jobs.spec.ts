@@ -26,12 +26,21 @@ describe('@/stores/jobs', () => {
   //     jobsStore.removeAll()
   //     expect(jobsStore.filters).toEqual([])
   //   })
-
+  // it('getter "jobs" without filters', () => {
+  //   const jobsStore = createJobsStore({
+  //     filters: [],
+  //     allJobs,
+  //   })
+  //   // console.log(jobsStore.filterData)
+  //   expect(jobsStore.filterData).toEqual([allJobs[1]])
+  // })
   it('getter "jobs" filters out all jobs based on selected filters', () => {
     const jobsStore = createJobsStore({
-      filters: ['Midweight'],
+      selectedFilters: ['Midweight'],
       allJobs,
     })
-    expect(jobsStore.jobs).toEqual([allJobs[1]])
+    console.log(jobsStore.filterData)
+    console.log([allJobs[1]])
+    expect(jobsStore.filterData).toEqual([allJobs[1]])
   })
 })
