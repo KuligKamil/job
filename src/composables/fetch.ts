@@ -15,6 +15,7 @@ export function useFetch<T, U = T>(options: FetchOptions<T, U>) {
     try {
       loading.value = true
       const response = await fetch(`api/${url}`)
+      // const response = await fetch(`api/${url}`)``
       if (response.ok) {
         const responseData = await response.json()
         data.value = mapResponse ? mapResponse(responseData) : responseData

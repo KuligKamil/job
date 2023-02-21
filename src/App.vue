@@ -5,7 +5,7 @@ import Job from './components/JobElement.vue'
 import { jobsStore } from '@/stores/jobs'
 
 const { fetchData } = jobsStore()
-const { jobs, isLoading, filters } = storeToRefs(jobsStore())
+const { jobs, loading, filters } = storeToRefs(jobsStore())
 
 const searchText = ref('')
 
@@ -33,10 +33,10 @@ fetchData()
           />
         </v-col>
       </v-row>
-      <div v-if="isLoading" class="d-flex justify-center">
+      <div v-if="loading" class="d-flex justify-center">
         <v-progress-circular indeterminate :size="56" />
       </div>
-      <div v-if="!isLoading">
+      <div v-if="!loading">
         <Job v-for="job in filterData" :key="job.id" v-model:filters="selectedFilters" :job="job" />
       </div>
     </v-container>
